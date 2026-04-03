@@ -1,6 +1,6 @@
 function estruturaIfElse(nota) {
   if (nota >= 6) {
-    re("Aprovado!");
+    return "Aprovado!";
   } else if (nota >= 4) {
     return "Recuperação.";
   } else {
