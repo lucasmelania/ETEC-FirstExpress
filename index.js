@@ -123,7 +123,7 @@ app.get("/exF", (req, res) => {
 });
 
 app.get("/exG", (req, res) => {
-  let resultado = estruturaRepeticao(182);
+  let resultado = estruturaRepeticao(24);
   res.send(formatarResultado(resultado));
 });
 
