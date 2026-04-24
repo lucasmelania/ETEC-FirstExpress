@@ -15,123 +15,157 @@ const app = express();
 app.get("/", (req, res) => {
   res.send(`
     <html>
-  <head>
-    <!-- ESSENCIAL para responsividade -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f9;
-        color: #333;
-        text-align: center;
-        padding: 20px;
-        margin: 0;
-      }
-      h1 {
-        color: #0459af;
-        font-size: 2em;
-      }
-      ul {
-        list-style: none;
-        padding: 0;
-        max-width: 400px;
-        margin: 0 auto;
-      }
-      li {
-        margin: 10px 0;
-      }
-      a {
-        text-decoration: none;
-        color: #000000;
-        font-weight: bold;
-        font-size: 22px;
-      }
-      a:hover {
-        color: #4b4b4b;
-      }
-
-      /* Responsividade para telas pequenas */
-      @media (max-width: 600px) {
-        h1 {
-          font-size: 1.4em;
-        }
-        p {
-          font-size: 0.9em;
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+        body {
+          font-family: Arial;
+          text-align: center;
+          background: #f4f4f9;
         }
         a {
           display: block;
-          padding: 10px;
-          background: #c9c8c8;
-          border-radius: 5px;
+          margin: 10px;
+          font-size: 20px;
         }
-        li {
-          margin: 5px 0;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Bem-vindo ao meu primeiro projeto Express</h1>
-    <p>Escolha um exercício abaixo:</p>
-    <ul>
-      <li><a href="/exA">Exercício Declaração A</a></li>
-      <li><a href="/exB">Exercício Aritméticos B</a></li>
-      <li><a href="/exC">Exercício Relacionais C</a></li>
-      <li><a href="/exD">Exercício Lógicos D</a></li>
-      <li><a href="/exE">Exercício If/Else E</a></li>
-      <li><a href="/exF">Exercício Switch F</a></li>
-      <li><a href="/exG">Exercício Repetição G</a></li>
-      <li><a href="/exH">Exercício Vetor H</a></li>
-    </ul>
-    <br>
-    <p>Por: Lucas Lopes Melania</p>
-  </body>
-</html>
+      </style>
+    </head>
+    <body>
+      <h1>Projeto Express</h1>
 
+      <!-- QUERY -->
+      <h3>Usando QueryString</h3>
+      <a href="/exA?nome=Lucas&idade=16&cidade=SP">Ex A</a>
+      <a href="/exB2?n1=10&n2=20">Ex B</a>
+      <a href="/exC2?n1=10&n2=20">Ex C</a>
+      <a href="/exD2?idade=16">Ex D</a>
+      <a href="/exE2?valor=10">Ex E</a>
+      <a href="/exF2?dia=7">Ex F</a>
+      <a href="/exG2?num=24">Ex G</a>
+      <a href="/exH2?index=0">Ex H</a>
+
+      <!-- PARAMS -->
+      <h3>Usando Params</h3>
+      <a href="/exA/Lucas/16/SP">Ex A</a>
+      <a href="/exB/10/20">Ex B</a>
+      <a href="/exC/10/20">Ex C</a>
+      <a href="/exD/16">Ex D</a>
+      <a href="/exE/10">Ex E</a>
+      <a href="/exF/7">Ex F</a>
+      <a href="/exG/24">Ex G</a>
+      <a href="/exH/0">Ex H</a>
+
+      <p>Por: Lucas Lopes Melania</p>
+    </body>
+    </html>
   `);
 });
 
+// 🔹 EX A (query)
 app.get("/exA", (req, res) => {
-  let declaracao = exercicioDeclaracao("Lucas", 16, "São Paulo");
-
-  res.send(formatarResultado(declaracao));
-});
-
-app.get("/exB", (req, res) => {
-  let resultado = exercicioAritimeticos(10, 10);
+  let { nome, idade, cidade } = req.query;
+  let resultado = exercicioDeclaracao(nome, Number(idade), cidade);
   res.send(formatarResultado(resultado));
 });
 
-app.get("/exC", (req, res) => {
-  let resultado = operadoresRelacionais(10, 20);
+// 🔹 EX A (params) 👈 ADICIONADO
+app.get("/exA/:nome/:idade/:cidade", (req, res) => {
+  let { nome, idade, cidade } = req.params;
+  let resultado = exercicioDeclaracao(nome, Number(idade), cidade);
   res.send(formatarResultado(resultado));
 });
 
-app.get("/exD", (req, res) => {
-  let resultado = operadoresLogicos(16);
+// 🔹 EX B
+app.get("/exB/:n1/:n2", (req, res) => {
+  let { n1, n2 } = req.params;
+  let resultado = exercicioAritimeticos(Number(n1), Number(n2));
   res.send(formatarResultado(resultado));
 });
 
-app.get("/exE", (req, res) => {
-  let resultado = estruturaIfElse(10);
+app.get("/exB2", (req, res) => {
+  let { n1, n2 } = req.query;
+  let resultado = exercicioAritimeticos(Number(n1), Number(n2));
   res.send(formatarResultado(resultado));
 });
 
-app.get("/exF", (req, res) => {
-  let resultado = estruturaSwitch(7);
+// 🔹 EX C
+app.get("/exC/:n1/:n2", (req, res) => {
+  let { n1, n2 } = req.params;
+  let resultado = operadoresRelacionais(Number(n1), Number(n2));
   res.send(formatarResultado(resultado));
 });
 
-app.get("/exG", (req, res) => {
-  let resultado = estruturaRepeticao(24);
+app.get("/exC2", (req, res) => {
+  let { n1, n2 } = req.query;
+  let resultado = operadoresRelacionais(Number(n1), Number(n2));
   res.send(formatarResultado(resultado));
 });
 
-app.get("/exH", (req, res) => {
-  let resultado = vetor(0);
+// 🔹 EX D
+app.get("/exD/:idade", (req, res) => {
+  let { idade } = req.params;
+  let resultado = operadoresLogicos(Number(idade));
+  res.send(formatarResultado(resultado));
+});
+
+app.get("/exD2", (req, res) => {
+  let { idade } = req.query;
+  let resultado = operadoresLogicos(Number(idade));
+  res.send(formatarResultado(resultado));
+});
+
+// 🔹 EX E
+app.get("/exE/:valor", (req, res) => {
+  let { valor } = req.params;
+  let resultado = estruturaIfElse(Number(valor));
+  res.send(formatarResultado(resultado));
+});
+
+app.get("/exE2", (req, res) => {
+  let { valor } = req.query;
+  let resultado = estruturaIfElse(Number(valor));
+  res.send(formatarResultado(resultado));
+});
+
+// 🔹 EX F
+app.get("/exF/:dia", (req, res) => {
+  let { dia } = req.params;
+  let resultado = estruturaSwitch(Number(dia));
+  res.send(formatarResultado(resultado));
+});
+
+app.get("/exF2", (req, res) => {
+  let { dia } = req.query;
+  let resultado = estruturaSwitch(Number(dia));
+  res.send(formatarResultado(resultado));
+});
+
+// 🔹 EX G
+app.get("/exG/:num", (req, res) => {
+  let { num } = req.params;
+  let resultado = estruturaRepeticao(Number(num));
+  res.send(formatarResultado(resultado));
+});
+
+app.get("/exG2", (req, res) => {
+  let { num } = req.query;
+  let resultado = estruturaRepeticao(Number(num));
+  res.send(formatarResultado(resultado));
+});
+
+// 🔹 EX H
+app.get("/exH/:index", (req, res) => {
+  let { index } = req.params;
+  let resultado = vetor(Number(index));
+  res.send(formatarResultado(resultado));
+});
+
+app.get("/exH2", (req, res) => {
+  let { index } = req.query;
+  let resultado = vetor(Number(index));
   res.send(formatarResultado(resultado));
 });
 
 app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
+  console.log("Servidor rodando em http://localhost:3000");
 });
